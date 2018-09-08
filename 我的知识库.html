@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>我的知识库</title>
+  <style>
+    *{margin:0;padding:0}
+    table,td{
+      border:1px solid #cccccc;
+      border-collapse:collapse;
+    }
+    table{
+      width: 1090px;
+      margin:20px auto;
+    }
+    tr{
+      line-height: 30px;
+    }
+    td{
+      text-align: center;
+    }
+    button{
+      width: 40px;
+      height: 24px;
+      border: 1px solid orange;
+    }
+    fieldset{
+      width: 1040px;
+      margin:0 auto;
+      padding:25px;
+    }
+    fieldset p{
+      line-height: 30px;
+    }
+  </style>
+  <script src="vue.min.js"></script>
+</head>
+<body>
+<div id="demo">
+  <table>
+    <tr>
+      <th>ID</th>
+      <th>书名</th>
+      <th>作者</th>
+      <th>类别</th>
+    </tr>
+    <tr v-for="(book,index) in books">
+      <td>{{book.id}}</td>
+      <td>{{book.name}}</td>
+      <td>{{book.author}}</td>
+      <td>{{book.attribute}}</td>
+      <td>
+        <button @click="delBook(index)">删除</button>
+      </td>
+    </tr>
+  </table>
+
+  <fieldset>
+    <legend>添加新书</legend>
+    <p>书名：<input type="text" v-model="newBook.name"></p>
+    <p>作者：<input type="text" v-model="newBook.author"></p>
+    <p>类别：<input type="text" v-model="newBook.attribute"></p>
+    <p><button @click="addBook">添加</button></p>
+  </fieldset>
+</div>
+<script>
+  var app = new Vue({
+    el:'#demo',
+    data:{
+      books:[
+        {id:1, name:'精通HTML', author:'Paul Haine', attribute:'HTML'},
+        {id:2, name:'精通CSS', author:'Andy Budd ', attribute:'CSS'},
+        {id:3, name:'Javascript高级程序设计', author:'尼古拉斯.泽卡斯', attribute:'Javascript'},
+        {id:4, name:'Vue.js实战', author:'(梁灏) 尤雨溪作序', attribute:'Vue.js'},
+          ],
+      newBook:{
+        id:0,
+        name:'',
+        author:'',
+        price:''
+      }
+    },
+    methods:{
+      delBook:function(idx){
+        this.books.splice(idx, 1);
+      },
+      addBook:function(){
+        var maxId = 0;
+        for(var i=0; i<this.books.length; i++){
+          if(maxId<this.books[i].id){
+            maxId = this.books[i].id;
+          }
+        }
+        this.newBook.id = maxId+1;
+        // console.log(this.newBook);
+        //
+        // 插入到books中
+        this.books.push(this.newBook);
+
+        //清空新书
+        this.newBook = {};
+      }
+    }
+  });
+</script>
+</body>
+</html>
